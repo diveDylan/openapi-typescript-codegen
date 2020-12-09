@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import type { Client } from '../client/interfaces/Client';
 import { HttpClient } from '../index';
-import { mkdir, rmdir } from './fileSystem';
+import { mkdir, rmdir, exists } from './fileSystem';
 import { isSubDirectory } from './isSubdirectory';
 import { Templates } from './registerHandlebarTemplates';
 import { writeClientCore } from './writeClientCore';
@@ -48,10 +48,13 @@ export async function writeClient(
         throw new Error(`Output folder is not a subdirectory of the current working directory`);
     }
 
-    await rmdir(outputPath);
+    await rmdir(outputPathModels);
+    await rmdir(outputPathSchemas);
+    await rmdir(outputPathServices);
     await mkdir(outputPath);
-    if (exportCore && outputPathCore) {
-
+    const coreExists = await exists(outputPathCore)
+    console.log('outputPathCore', outputPathCore,coreExists )
+    if (exportCore && outputPathCore && !coreExists) {
         await mkdir(outputPathCore);
         await writeClientCore(client, templates, outputPathCore, httpClient);
     }

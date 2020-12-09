@@ -60,13 +60,11 @@ export async function generate({
     const openApiVersion = getOpenApiVersion(openApi);
     const templates = registerHandlebarTemplates();
 
-
     switch (openApiVersion) {
         case OpenApiVersion.V2: {
             const client = parseV2(openApi);
             const clientFinal = postProcessClient(client);
             if (!write) break;
-            // TODO: format clientFinal add api(request) alias
             await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas, apiAlias);
             break;
         }
@@ -75,7 +73,6 @@ export async function generate({
             const client = parseV3(openApi);
             const clientFinal = postProcessClient(client);
             if (!write) break;
-            // TODO: format clientFinal add api(request) alias
             await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas, apiAlias);
             break;
         }
