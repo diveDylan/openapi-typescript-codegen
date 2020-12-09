@@ -2,14 +2,14 @@
     "name": "openapi-typescript-codegen",
     "version": "0.5.7",
     "description": "NodeJS library that generates Typescript or Javascript clients based on the OpenAPI specification.",
-    "author": "Ferdi Koomen",
+    "author": "zengxiangda",
     "homepage": "http://gitlab.psf-dev.com/frontend/openapi-typescritp-codegen",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ferdikoomen/openapi-typescript-codegen.git"
+        "url": "git+http://gitlab.psf-dev.com/frontend/openapi-typescritp-codegen.git"
     },
     "bugs": {
-        "url": "https://github.com/ferdikoomen/openapi-typescript-codegen/issues"
+        "url": "http://gitlab.psf-dev.com/frontend/openapi-typescritp-codegen/issues"
     },
     "license": "MIT",
     "keywords": [
