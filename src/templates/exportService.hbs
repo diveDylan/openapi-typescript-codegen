@@ -5,7 +5,9 @@
 import type { {{{this}}} } from '../models/{{{this}}}';
 {{/each}}
 {{/if}}
-import { request as __request } from '../core/request';
+{{#if alias }}
+import { request as __request } from '{{alias}}';
+{{/if}}
 {{#if @root.useVersion}}
 import { OpenAPI } from '../core/OpenAPI';
 {{/if}}
@@ -70,13 +72,6 @@ export class {{{name}}} {
             {{/if}}
             {{#if responseHeader}}
             responseHeader: '{{{responseHeader}}}',
-            {{/if}}
-            {{#if errors}}
-            errors: {
-                {{#each errors}}
-                {{{code}}}: `{{{description}}}`,
-                {{/each}}
-            },
             {{/if}}
         });
         return result.body;

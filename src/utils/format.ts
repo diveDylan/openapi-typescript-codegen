@@ -4,7 +4,8 @@ export function format(s: string): string {
     let indent: number = 0;
     let lines = s.split(os.EOL);
     lines = lines.map(line => {
-        line = line.trim().replace(/^\*/g, ' *');
+        line = line.trim().replace(/^\*/g, ' *').replace(/\;/g, '');
+
         let i = indent;
         if (line.endsWith('(') || line.endsWith('{') || line.endsWith('[')) {
             indent++;

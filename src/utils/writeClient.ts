@@ -34,10 +34,12 @@ export async function writeClient(
     exportCore: boolean,
     exportServices: boolean,
     exportModels: boolean,
-    exportSchemas: boolean
+    exportSchemas: boolean,
+    alias: string
 ): Promise<void> {
     const outputPath = path.resolve(process.cwd(), output);
-    const outputPathCore = path.resolve(outputPath, 'core');
+    // cancel write core
+    const outputPathCore = alias ? '' : path.resolve(outputPath, 'core');
     const outputPathModels = path.resolve(outputPath, 'models');
     const outputPathSchemas = path.resolve(outputPath, 'schemas');
     const outputPathServices = path.resolve(outputPath, 'services');
@@ -48,15 +50,15 @@ export async function writeClient(
 
     await rmdir(outputPath);
     await mkdir(outputPath);
+    if (exportCore && outputPathCore) {
 
-    if (exportCore) {
         await mkdir(outputPathCore);
         await writeClientCore(client, templates, outputPathCore, httpClient);
     }
 
     if (exportServices) {
         await mkdir(outputPathServices);
-        await writeClientServices(client.services, templates, outputPathServices, httpClient, useUnionTypes, useOptions);
+        await writeClientServices(client.services, templates, outputPathServices, httpClient, useUnionTypes, useOptions, alias);
     }
 
     if (exportSchemas) {
@@ -69,5 +71,5 @@ export async function writeClient(
         await writeClientModels(client.models, templates, outputPathModels, httpClient, useUnionTypes);
     }
 
-    await writeClientIndex(client, templates, outputPath, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas);
+    await writeClientIndex(client, templates, outputPath, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas, alias);
 }

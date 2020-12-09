@@ -27,12 +27,13 @@ export async function writeClientIndex(
     exportCore: boolean,
     exportServices: boolean,
     exportModels: boolean,
-    exportSchemas: boolean
+    exportSchemas: boolean,
+    alias?: string
 ): Promise<void> {
     await writeFile(
         path.resolve(outputPath, 'index.ts'),
         templates.index({
-            exportCore,
+            exportCore: !alias && exportCore,
             exportServices,
             exportModels,
             exportSchemas,

@@ -6,6 +6,7 @@ import { isString } from './utils/isString';
 import { postProcessClient } from './utils/postProcessClient';
 import { registerHandlebarTemplates } from './utils/registerHandlebarTemplates';
 import { writeClient } from './utils/writeClient';
+import * as path from 'path'
 
 export enum HttpClient {
     FETCH = 'fetch',
@@ -24,6 +25,7 @@ export interface Options {
     exportModels?: boolean;
     exportSchemas?: boolean;
     write?: boolean;
+    apiAlias: string
 }
 
 /**
@@ -52,17 +54,20 @@ export async function generate({
     exportModels = true,
     exportSchemas = false,
     write = true,
+    apiAlias,
 }: Options): Promise<void> {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
     const openApiVersion = getOpenApiVersion(openApi);
     const templates = registerHandlebarTemplates();
+
 
     switch (openApiVersion) {
         case OpenApiVersion.V2: {
             const client = parseV2(openApi);
             const clientFinal = postProcessClient(client);
             if (!write) break;
-            await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas);
+            // TODO: format clientFinal add api(request) alias
+            await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas, apiAlias);
             break;
         }
 
@@ -70,7 +75,8 @@ export async function generate({
             const client = parseV3(openApi);
             const clientFinal = postProcessClient(client);
             if (!write) break;
-            await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas);
+            // TODO: format clientFinal add api(request) alias
+            await writeClient(clientFinal, templates, output, httpClient, useOptions, useUnionTypes, exportCore, exportServices, exportModels, exportSchemas, apiAlias);
             break;
         }
     }
