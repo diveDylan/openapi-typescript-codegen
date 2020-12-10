@@ -54,7 +54,7 @@ export async function generate({
     exportModels = true,
     exportSchemas = false,
     write = true,
-    apiAlias,
+    apiAlias = '../core/request',
 }: Options): Promise<void> {
     const openApi = isString(input) ? await getOpenApiSpec(input) : input;
     const openApiVersion = getOpenApiVersion(openApi);

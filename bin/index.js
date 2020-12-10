@@ -35,7 +35,7 @@ if (OpenAPI) {
         exportServices: JSON.parse(program.exportServices) === true,
         exportModels: JSON.parse(program.exportModels) === true,
         exportSchemas: JSON.parse(program.exportSchemas) === true,
-        apiAlias: program.apiAlias
+        apiAlias: program.apiAlias || '../core/request'
     })
         .then(() => {
             process.exit(0);
