@@ -19,7 +19,7 @@ program
     .option('--exportServices <value>', 'Write services to disk', true)
     .option('--exportModels <value>', 'Write models to disk', true)
     .option('--exportSchemas <value>', 'Write schemas to disk', false)
-    .option('--apiAlias <value>', 'your api alias here')
+    .option('--apiAlias <value>', 'your api alias here', '../core/request')
     .parse(process.argv);
 
 const OpenAPI = require(path.resolve(__dirname, '../dist/index.js'));

@@ -39,7 +39,7 @@ export async function writeClient(
 ): Promise<void> {
     const outputPath = path.resolve(process.cwd(), output);
     // cancel write core
-    const outputPathCore = alias ? '' : path.resolve(outputPath, 'core');
+    const outputPathCore =  path.resolve(outputPath, 'core');
     const outputPathModels = path.resolve(outputPath, 'models');
     const outputPathSchemas = path.resolve(outputPath, 'schemas');
     const outputPathServices = path.resolve(outputPath, 'services');
@@ -53,8 +53,7 @@ export async function writeClient(
     await rmdir(outputPathServices);
     await mkdir(outputPath);
     const coreExists = await exists(outputPathCore)
-    console.log('outputPathCore', outputPathCore,coreExists )
-    if (exportCore && outputPathCore && !coreExists) {
+    if (exportCore && outputPathCore) {
         await mkdir(outputPathCore);
         await writeClientCore(client, templates, outputPathCore, httpClient);
     }

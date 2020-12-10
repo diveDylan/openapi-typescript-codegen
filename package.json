@@ -1,6 +1,6 @@
 {
     "name": "openapi-typescript-codegen",
-    "version": "0.5.7",
+    "version": "0.6.0",
     "description": "NodeJS library that generates Typescript or Javascript clients based on the OpenAPI specification.",
     "author": "zengxiangda",
     "homepage": "http://gitlab.psf-dev.com/frontend/openapi-typescritp-codegen",
@@ -28,8 +28,8 @@
     ],
     "maintainers": [
         {
-            "name": "Ferdi Koomen",
-            "email": "info@madebyferdi.com"
+            "name": "dylan",
+            "email": "dylan_zeng92@qq.com"
         }
     ],
     "main": "dist/index.js",
