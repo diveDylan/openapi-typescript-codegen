@@ -1,8 +1,7 @@
-async function sendRequest(options: ApiRequestOptions, url: string): Promise<Response> {
-    const request: RequestInit = {
-        method: options.method,
+async function sendRequest(options: ApiRequestOptions, url: string): Promise<any> {
+    const request = {
         headers: await getHeaders(options),
-        body: getRequestBody(options),
+        data: getRequestBody(options), // umi
     };
-    return await fetch(url, request);
+    return await _request[options.method](url, request);
 }

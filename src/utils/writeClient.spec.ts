@@ -28,6 +28,7 @@ describe('writeClient', () => {
                 apiRequestOptions: () => 'apiRequestOptions',
                 apiResult: () => 'apiResult',
                 request: () => 'request',
+                umiRequest: () => 'umiRequest'
             },
         };
 

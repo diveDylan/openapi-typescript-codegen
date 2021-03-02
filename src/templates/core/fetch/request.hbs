@@ -4,6 +4,8 @@ import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { ApiResult } from './ApiResult';
 import { OpenAPI } from './OpenAPI';
+// umi-request
+import _request from './umi-request'
 
 {{>functions/isDefined}}
 
@@ -50,20 +52,8 @@ import { OpenAPI } from './OpenAPI';
  * @result ApiResult
  * @throws ApiError
  */
-export async function request(options: ApiRequestOptions): Promise<ApiResult> {
+export async function request(options: ApiRequestOptions): Promise<any> {
     const url = getUrl(options);
     const response = await sendRequest(options, url);
-    const responseBody = await getResponseBody(response);
-    const responseHeader = getResponseHeader(response, options.responseHeader);
-
-    const result: ApiResult = {
-        url,
-        ok: response.ok,
-        status: response.status,
-        statusText: response.statusText,
-        body: responseHeader || responseBody,
-    };
-
-    catchErrors(options, result);
-    return result;
+    return response;
 }

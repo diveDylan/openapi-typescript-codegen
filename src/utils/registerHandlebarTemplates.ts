@@ -3,6 +3,7 @@ import * as Handlebars from 'handlebars/runtime';
 import templateCoreApiError from '../templates/core/ApiError.hbs';
 import templateCoreApiRequestOptions from '../templates/core/ApiRequestOptions.hbs';
 import templateCoreApiResult from '../templates/core/ApiResult.hbs';
+import templateUmiRequest from '../templates/core/umi-request.hbs';
 import fetchGetHeaders from '../templates/core/fetch/getHeaders.hbs';
 import fetchGetRequestBody from '../templates/core/fetch/getRequestBody.hbs';
 import fetchGetResponseBody from '../templates/core/fetch/getResponseBody.hbs';
@@ -76,6 +77,7 @@ export interface Templates {
         apiRequestOptions: Handlebars.TemplateDelegate;
         apiResult: Handlebars.TemplateDelegate;
         request: Handlebars.TemplateDelegate;
+        umiRequest: Handlebars.TemplateDelegate
     };
 }
 
@@ -100,6 +102,7 @@ export function registerHandlebarTemplates(): Templates {
             apiRequestOptions: Handlebars.template(templateCoreApiRequestOptions),
             apiResult: Handlebars.template(templateCoreApiResult),
             request: Handlebars.template(templateCoreRequest),
+            umiRequest: Handlebars.template(templateUmiRequest)
         },
     };
 

@@ -1,0 +1,86 @@
+
+import { message } from 'antd'
+import { extend, RequestOptionsInit, RequestMethod } from 'umi-request'
+import Qs from 'qs'
+import { prefix } from '@/utils/env'
+
+message.config({
+  maxCount: 1,
+})
+
+interface RequestWithUserId extends RequestMethod {
+  userId?: string
+}
+function errorHandle(error: any) {
+  const codeMap = {
+    401: '暂无权限',
+    403: '无资源权限',
+    404: '未找到相关信息',
+    500: '服务错误',
+    503: '服务错误',
+    504: '服务错误',
+  }
+  if (error.response) {
+    message.error(
+      `${codeMap[error.response.status]} url : ${error.response.url}`
+    )
+  } else {
+    // 请求初始化时出错或者没有响应返回的异常
+    message.error('未知异常')
+  }
+}
+
+export const whilteListCode = ['0', '100011']
+const request: RequestWithUserId = extend({
+  prefix: prefix,
+  errorHandler: errorHandle,
+  responseType: 'json',
+  timeout: 2 * 60 * 1000, // 过期时间 2 分钟，根据需求改动
+  useCache: false, // 是否使用缓存
+  // ttl 缓存过期时间，默认 60 * 1000
+  // errorHandler: serverErrorHandler, // 由于不是通过服务器状态码处理结果，不使用
+  paramsSerializer: function(params) {
+    return Qs.stringify(params, { encodeValuesOnly: true, encode: true })
+    // arrayFormat: 'brackets',
+  },
+  // @ts-ignore
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    get token() {
+      return window.localStorage.getItem('token')
+    },
+  },
+  credentials: 'include', // 请求丢到cookie，不能开，开就是爆炸。
+})
+// 请求拦截器
+export interface HideLoadingAddOption extends RequestOptionsInit {
+  hideLoading?: boolean
+}
+
+request.interceptors.request.use((url, options: HideLoadingAddOption) => {
+  const request = {
+    url: `${url}`,
+    options: { ...options },
+  }
+  return request
+})
+// 响应拦截器
+request.interceptors.response.use(async response => {
+  const clone = response.clone()
+  const getHeaderContentType = clone.headers.get('Content-Type')
+  if (getHeaderContentType?.includes('application/json')) {
+    const json = await clone.json()
+    if (!whilteListCode.includes(json.code)) {
+      message.error(json.msg, 3)
+    }
+    if (json.code === '401') {
+      location.href = json.data
+    }
+    if (json.code === '0') {
+    }
+  }
+  return response
+})
+
+export default request
